@@ -32,3 +32,18 @@ stop:
 # Clean the compiled executable
 clean:
 	rm -f $(EXEC)
+# Add these lines to your Makefile
+TEST_EXEC = test_main
+TEST_SRC = tests/test_main.c
+
+.PHONY: test
+# Add these lines to your Makefile
+.PHONY: docker-test
+
+docker-test:
+ bats tests/docker.bats
+# Build and run tests
+test: $(SRC) $(TEST_SRC)
+ $(CC) $(CFLAGS) -o $(TEST_EXEC) $(SRC) $(TEST_SRC) -lcheck
+ ./$(TEST_EXEC)
+ rm -f $(TEST_EXEC)
